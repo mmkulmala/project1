@@ -35,9 +35,11 @@ public class MessageController {
     
     // injection ready method. Also amount doesn't do anything.. simulates old code
     @GetMapping("message_old")
-    public ResponseEntity<List<Message>> getMessageById(@RequestParam(value = "id", required = true) String id) {
+    public ResponseEntity<List<Message>> getMessageById(@RequestParam(value = "id", required = true) String id, UriComponentsBuilder builder) {
         List<Message> list = messageService.getArticleById(id);
-        return new ResponseEntity<List<Message>>(list, HttpStatus.OK);
+        
+        // A10 redirect to newer messages endpoint
+        return getAllMessages();
     }
 
     @GetMapping("messages")
