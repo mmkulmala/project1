@@ -19,3 +19,10 @@ Go to mysql shell and type:
 Or use REST endpoint (curl or postman - your choice):
 * curl -d '{"content":"some content"}' -H "Content-Type: application/json" -X POST http://localhost:8096/user/message
 * curl -d '{"content":"more content"}' -H "Content-Type: application/json" -X POST http://localhost:8096/user/message
+
+## Testing injection and fix
+* curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET http://localhost:8096/user/message_old?id=' or '1'='1
+
+Fixed call should be:
+* curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET http://localhost:8096/user/message/1
+
