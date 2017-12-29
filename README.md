@@ -20,9 +20,28 @@ Or use REST endpoint (curl or postman - your choice):
 * curl -d '{"content":"some content"}' -H "Content-Type: application/json" -X POST http://localhost:8096/user/message
 * curl -d '{"content":"more content"}' -H "Content-Type: application/json" -X POST http://localhost:8096/user/message
 
-## Testing injection and fix
+## OWASP problems
+Here are 5 OWASP problems and how to fix them in this app
+
+### A1 Testing injection and fix (also A6 - the data can be used by someone else)
 * curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET http://localhost:8096/user/message_old?id=' or '1'='1
 
 Fixed call should be:
 * curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET http://localhost:8096/user/message/1
 
+Fix to A6 is that when A1 is fixing sensitive data doesn't go to people you don't want to.
+
+### A9-Using Components with Known Vulnerabilities
+Almost all the Spring version have known vulnerabilities - check them with mvn dependency-check:check.
+
+Fix is to Spring parent version to latest: 1.5.9.RELEASE
+
+### A5-Security Misconfiguration
+I didn't create any security configurations so every exception is returned to user. 
+
+Fix is implement security
+
+### A10-Unvalidated Redirects and Forwards
+Injection endpoint also forwards to messages endpoint.
+
+Fix is to remove injection endpoint.
